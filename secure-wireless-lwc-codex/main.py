@@ -21,6 +21,7 @@ def _parser() -> argparse.ArgumentParser:
             "attack_replay",
             "attack_mitm",
             "attack_all",
+            "dashboard",
         ],
         help="Action to execute.",
     )
@@ -76,6 +77,12 @@ def main() -> None:
         run_eavesdrop_demo()
         run_replay_demo()
         run_mitm_demo()
+        return
+
+    if args.command == "dashboard":
+        from src.ui.dashboard import run_dashboard
+
+        run_dashboard(host="127.0.0.1", port=8091)
         return
 
 

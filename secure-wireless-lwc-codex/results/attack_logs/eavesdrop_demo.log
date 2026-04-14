@@ -4,6 +4,6 @@ EAVESDROP DEMO
 Original message: Top secret sensor reading: 42.7 degrees
 Receiver status:  OK
 Decrypted at RX:  Top secret sensor reading: 42.7 degrees
-Captured hex:     01010000000000000001b743d98e3ccb8e43000000010000019d1b739b7d001053454e44455230310000019d1b739b7d0027bff83022ba06fab9326a...
+Captured hex:     010100000000000000013098210139288e8d000000010000019d8c633402001053454e44455230310000019d8c63340200277cb819c14a984a69d78c...
 Plaintext in raw: False
 RESULT:           PASS
