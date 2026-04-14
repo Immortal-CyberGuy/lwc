@@ -1,0 +1,27 @@
+Latest test execution report
+Generated: 2026-03-23 18:34:44 +05:30
+
+=== tests/test_crypto_engines.py ===
+................                                                         [100%]
+16 passed in 1.62s
+
+=== tests/test_e2e.py ===
+.......                                                                  [100%]
+7 passed in 2.48s
+
+=== tests/test_benchmark_runner.py ===
+.                                                                        [100%]
+1 passed in 1.62s
+
+=== tests/test_attacks.py ===
+...                                                                      [100%]
+3 passed in 1.07s
+
+=== tests/test_visualize.py ===
+.                                                                        [100%]
+1 passed in 4.86s
+
+=== tests/test_utils.py ===
+..                                                                       [100%]
+2 passed in 0.09s
+

@@ -1,0 +1,29 @@
+Secure Wireless LWC — submission checklist (after Phase 6)
+===========================================================
+
+Code & tests
+  [ ] python main.py verify
+  [ ] python main.py test   (or: pytest tests -v)
+  [ ] (optional) python main.py keygen --out keys/psk.bin
+  [ ] (optional) python main.py serve -p 9000 --key keys/psk.bin --once
+        + python main.py send -p 9000 --key keys/psk.bin -m "ping"
+
+Data & figures
+  [ ] python main.py benchmark   → results/benchmark_results.csv (24 rows)
+  [ ] python main.py visualize -i results/benchmark_results.csv -o results
+  [ ] Six PNGs: chart1_throughput … chart6_attacks in results/
+
+Demos (logs optional)
+  [ ] python main.py demo eavesdrop
+  [ ] python main.py demo replay
+  [ ] python main.py demo mitm
+  [ ] Save transcripts under results/attack_logs/ if required
+
+Written deliverables (Word / PowerPoint — outside this repo)
+  [ ] Final report: abstract, intro, design, implementation, benchmarks, security, conclusion, references
+  [ ] Presentation (10–12 slides) with architecture + key charts
+  [ ] Embed figures; cite NIST SP 800-232 / course materials as applicable
+
+Version control (optional)
+  [ ] Remove results/*.csv and results/*.png from .gitignore if you need them in the repo
+  [ ] git init, commit, tag submission revision

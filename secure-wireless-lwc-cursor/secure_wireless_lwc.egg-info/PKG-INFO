@@ -1,0 +1,125 @@
+Metadata-Version: 2.4
+Name: secure-wireless-lwc
+Version: 0.1.0
+Summary: Secure wireless-style messaging with lightweight crypto (ASCON vs AES/SPECK/PRESENT), benchmarks, and attack demos.
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: ascon>=0.0.9
+Requires-Dist: pycryptodome>=3.20.0
+Requires-Dist: scapy>=2.5.0
+Requires-Dist: matplotlib>=3.8.0
+Requires-Dist: seaborn>=0.13.0
+Requires-Dist: pandas>=2.1.0
+Requires-Dist: numpy>=1.26.0
+Requires-Dist: psutil>=5.9.0
+Requires-Dist: pytest>=8.0.0
+
+# Secure Wireless LWC (Cursor instance)
+
+Isolated copy of the **Secure Wireless Communication using Lightweight Cryptography** project. Phases **1–6** from the development plan are implemented here.
+
+### One entrypoint (optional)
+
+From `secure-wireless-lwc-cursor/`:
+
+```powershell
+python main.py verify
+python main.py test
+python main.py benchmark --quick
+python main.py visualize --ensure-csv -i results\benchmark_results.csv -o results
+python main.py demo replay
+python main.py keygen --out keys/psk.bin
+```
+
+Utilities: `src/utils/key_manager.py`, `src/utils/logger.py`. Generated keys: `keys/` is gitignored.
+
+Hand-in reminders: `docs/submission_checklist.txt`.
+
+## Phase 1 — setup
+
+```powershell
+cd secure-wireless-lwc-cursor
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python verify_setup.py
+```
+
+Confirm `CryptoEngine` import:
+
+```powershell
+python -c "from src.crypto.base_engine import CryptoEngine; print('OK', CryptoEngine)"
+```
+
+## Phase 2 — crypto engines
+
+```powershell
+python -m pytest tests/test_crypto_engines.py -v
+```
+
+Expect **17 passed** (includes SPECK block round-trip sanity check).
+
+## Phase 3 — networking & protocol
+
+```powershell
+python -m pytest tests/test_network.py tests/test_e2e.py -v
+```
+
+TCP length-prefixed frames, `SecurePacket` layout, sliding-window replay guard, `SecureSender` / `SecureReceiver` (`listen_once` + `listen_count` for multi-packet tests).
+
+## Phase 4 — benchmarking
+
+Full suite (4 algorithms × 6 payload sizes → **24 rows** in `results/benchmark_results.csv`):
+
+```powershell
+python -m src.benchmark.bench_runner
+```
+
+Quick smoke run:
+
+```powershell
+python -m src.benchmark.bench_runner --quick -o results/benchmark_quick.csv
+```
+
+## Phase 5 — attack demos
+
+From the project root (each demo binds an ephemeral localhost port):
+
+```powershell
+python -m src.attacks.eavesdrop_demo
+python -m src.attacks.replay_demo
+python -m src.attacks.mitm_demo
+```
+
+Optional: copy terminal output into `results/attack_logs/` for your report.
+
+## Phase 6 — charts & report assets
+
+Generate **six PNGs** from a benchmark CSV (full run recommended for smooth curves):
+
+```powershell
+python -m src.benchmark.bench_runner
+python -m src.benchmark.visualize -i results\benchmark_results.csv -o results
+```
+
+If you do not have `results\benchmark_results.csv` yet:
+
+```powershell
+python -m src.benchmark.visualize --ensure-csv -i results\benchmark_results.csv -o results
+```
+
+Outputs: `results/chart1_throughput.png` … `chart6_attacks.png` (chart 6 summarizes the Phase 5 demo outcomes).
+
+**Report (create in Word/PowerPoint yourself):** Abstract, intro, literature, system design (diagrams + packet format), implementation, benchmark charts with discussion, security / attack analysis, conclusion, IEEE-style references. Embed the six figures and cite NIST SP 800-232 / ASCON / AES / your course sources.
+
+Note: `.gitignore` ignores `results/*.png` and `results/*.csv`; remove those lines locally if you want charts/CSVs under version control.
+
+## Layout
+
+- `src/crypto` — `base_engine.py`, `ascon_engine.py`, `aes_engine.py`, `speck_engine.py`, `present_engine.py`
+- `src/network` — `packet.py`, `replay_guard.py`, `sender.py`, `receiver.py`
+- `src/benchmark` — `bench_runner.py`, `visualize.py` (CSV → six chart PNGs)
+- `src/attacks` — `eavesdrop_demo.py`, `replay_demo.py`, `mitm_demo.py`
+- `src/utils` — `key_manager.py` (PSK generate/save/load), `logger.py`
+- `main.py` — optional CLI (`verify`, `test`, `benchmark`, `visualize`, `demo`)
+- `tests/`, `results/`, `docs/` — tests, outputs, `submission_checklist.txt`

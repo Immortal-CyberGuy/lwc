@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "secure-wireless-lwc"
+version = "0.1.0"
+description = "Secure wireless-style messaging with lightweight crypto (ASCON vs AES/SPECK/PRESENT), benchmarks, and attack demos."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "ascon>=0.0.9",
+  "pycryptodome>=3.20.0",
+  "scapy>=2.5.0",
+  "matplotlib>=3.8.0",
+  "seaborn>=0.13.0",
+  "pandas>=2.1.0",
+  "numpy>=1.26.0",
+  "psutil>=5.9.0",
+  "pytest>=8.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+src = ["src", "tests", "."]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]

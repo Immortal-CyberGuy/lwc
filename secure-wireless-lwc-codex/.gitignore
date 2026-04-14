@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+.gitdata/
+
+# Results/artifacts
+results/*.csv
+results/*.png
+results/attack_logs/
+pytest-cache-files-*/
+
+# OS
+.DS_Store
+Thumbs.db

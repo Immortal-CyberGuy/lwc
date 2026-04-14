@@ -1,0 +1,7 @@
+============================================================
+REPLAY DEMO
+============================================================
+Message 1 status: OK
+Message 2 status: REPLAY_REJECTED
+Message 3 status: REPLAY_REJECTED
+RESULT:           PASS
